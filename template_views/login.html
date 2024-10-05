@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta width="device-width" intial-scale="1.0" />
+    <title>Login</title>
+  </head>
+
+  <body>
+    <h1>Login</h1>
+    <form action="login.php" method="post" id="login-form">
+        Name: <input type="text" name="username" id="username"> </br>
+        Email: <input type="email" name="email" id="email"></br>
+        <input type="submit" value="Login" name="login" id="login">
+    </form>
+
+    <script>
+        document.getElementById('login').onclick = function() {
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            if (username == "" || email == "") {
+                alert("Please enter username and email");
+            } else if (/^[a-zA-Z0-9]+$/.test(username) && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                alert("Please enter valid username and email");
+            } else {
+                document.getElementById('login-form').submit();
+            }
+        }
+    </script>
+  </body>
+</html>

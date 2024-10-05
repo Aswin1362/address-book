@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta width="device-width" initial-scale="1.0" />
+    <title>Home</title>
+
+    <script>
+      console.log("Hello");
+      function loadAddresses() {
+        console.log("Loading addresses");
+        fetch("../get_address.php", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              return response.json();
+            } else {
+              throw new Error(response.statusText);
+            }
+          })
+          .then((data) => {
+            console.log(data);
+            displayAddresses(data);
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+
+        function displayAddresses(data) {
+          let addressList = document.getElementById("address-list");
+          addressList.textContent = "";
+          console.log('Got Array..: ', data);
+          if (Array.isArray(data) && data.length > 0) {
+            data[0].forEach((address) => {
+              let li = document.createElement("li");
+              li.textContent = `Username: ${address.username} - Email: ${address.email} - Phone: ${address.phone}`;
+              addressList.appendChild(li);
+            });
+          } else {
+            addressList.textContent = "No addresses found.";
+          }
+        }
+      }
+
+      function addAddress() {
+        document.getElementById("add-address").addEventListener("click", () => {
+          window.location.href = "address.html";
+        });
+      }
+
+      function logout() {
+        document.getElementById("logout").addEventListener("click", () => {
+          window.location.href = "logout.php";
+        });
+      }
+
+      window.onload = loadAddresses;
+    </script>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    <div id="address-list">Loading...</div>
+    <button
+      type="button"
+      name="add-address"
+      id="add-address"
+      onclick="addAddress()"
+    >
+      Add Address
+    </button>
+    <button type="submit" name="logout" id="logout" onclick="logout()">
+      Logout
+    </button>
+  </body>
+</html>
